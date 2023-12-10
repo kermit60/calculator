@@ -1,0 +1,86 @@
+* {
+    background-color: snow;
+    border: red solid 2px;
+}
+
+button {
+    height: 10vh;
+    width: 10vh;
+    font-size: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+    background-color: rgb(42, 41, 41);
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    padding: 10vh;
+}
+
+.calculator {
+    height: 75vh;
+    width: 60vh;
+    background-color: rgb(42, 41, 41);
+    border-radius: 3%;
+    padding: 5vh;
+    display: flex;
+    flex-direction: column;
+
+}
+
+#equals {
+    width: 26vh;
+    border-radius: 50px;
+}
+
+.expression, 
+.screen,
+.value {
+    background-color: rgb(95, 94, 94);
+    text-align: end;
+    
+}
+
+.expression {
+    height: 7vh;
+    font-size: 30px;
+    /* centering the text vertically */
+    padding-top: 3vh;
+    
+}
+
+.operator {
+    background-color: rgb(255, 179, 37);
+}
+
+.screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 20vh;
+    border-radius: 4px;
+    padding: 0 1vh;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    background-color: rgb(42, 41, 41);
+
+}
+
+.value {
+    font-size: 45px;
+}
+
+
+
