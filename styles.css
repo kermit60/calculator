@@ -14,6 +14,11 @@ button {
     border-radius: 50%;
     cursor: pointer;
     transition: margin-top 0.25s;
+    transition: transform 0.15s;
+}
+
+button:active {
+    transform: translateY(5px);
 }
 
 button:hover {
@@ -59,12 +64,16 @@ button:hover {
     
 }
 
+#equals:hover {
+    background-color:rgb(153, 153, 153);
+}
+
 .expression, 
 .screen,
 .value {
     background-color: rgb(95, 94, 94);
     text-align: end;
-    
+    overflow: auto;
 }
 
 .expression {
@@ -90,6 +99,8 @@ button:hover {
     height: 20vh;
     border-radius: 4px;
     padding: 0 1vh;
+    padding-bottom: 1vh;
+
 }
 
 .remove:hover {
