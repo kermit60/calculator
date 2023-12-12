@@ -17,37 +17,13 @@ let removeDigit = (array) => array.pop();
 // calculate the total number given an array of digits
 
 let calculate = (numArr) => {
-    return Number(numArr.join(''));
-};
-// let calculate = (numArr) => {
-//     let total = 0;
-//     let multipler = numArr.length - 1;
-//     // decimal numbers
-//     if (numArr.includes(NaN)) {
-//         const split = numArr.findIndex((digit) => digit === NaN);
-//         const wholeNum = numArr.slice(0, split);
-//         const decimal = numArr.slice(split + 1);
-//         multipler = wholeNum.length - 1;
-//         for (let i = 0; i < wholeNum.length; i++) {
-//             total += wholeNum[i] * (10 ** multipler);
-//             multipler--;
-//         }
-//         let decMultipler = 1;
-//         for (let j = 0; j < decimal.length; j++) {
-//             total += decimal[j] * (10 ** (-multipler));
-//             decMultipler++;
-//         }
-//     } else {
-//         for (let i = 0; i < numArr.length; i++) {
-//             total += numArr[i] * (10 ** multipler)
-//             multipler--;
-//         }
-//     }
+    return (Number(numArr.join('')));
 
-//     return total;
-// };
+};
+
 const decimalBut = document.querySelector("#decimal");
 decimalBut.addEventListener('click', (e) => {
+    decimalBut.setAttribute('disabled', 'true');
     if (operator.length <= 0) {
         addDigit(num1, e.target.value);
     } else {
@@ -63,6 +39,7 @@ decimalBut.addEventListener('click', (e) => {
 const digBut = document.querySelectorAll(".digit");
 digBut.forEach((but) => {
     but.addEventListener('click', (e) => {
+       
         if (operator.length <= 0) {
             addDigit(num1, Number(e.target.value));
         } else {
@@ -128,6 +105,15 @@ let modulus = (num1, num2) => {
     return num1 % num2;
 };
 
+const operators = {
+    '+':'add',
+    '-':'subtract',
+    'x':'multiply',
+    '/':'divide',
+    '%':'modulus',
+    'Enter':'equals'
+}
+
 let operate = (num1, operator, num2) => {
     if (operator === 'add') return `${add(num1, num2)}`;
     if (operator === 'subtract') return `${subtract(num1, num2)}`;
@@ -166,6 +152,7 @@ equalsButton.addEventListener('click', (e) => {
 const opButtons = document.querySelectorAll('.operator');
 opButtons.forEach((button) => {
     button.addEventListener('click', (e) => {
+        decimalBut.removeAttribute('disabled', 'true');
         digBut.forEach((but) => but.removeAttribute('disabled', 'false'));
         // if it's a continuous operator then we
         if (operator.length > 0) {
@@ -251,6 +238,97 @@ removeBut.forEach((button) => {
     });
 });
 
+window.addEventListener("keydown", function (event) {
+    if (event.defaultPrevented) {
+      return; // Do nothing if the event was already processed
+    }
+    
+    if (event.key === '0' || event.key === '1' || event.key === '2' || event.key === '3' ||
+        event.key === '4' || event.key === '5' || event.key === '6' || event.key === '7' ||
+        event.key === '8' || event.key === '9') {
+            if (operator.length <= 0) {
+                addDigit(num1, Number(event.key));
+            } else {
+                addDigit(num2, Number(event.key));
+            }
+    
+            console.log("arr1", num1);
+            console.log("arr2", num2);
+    
+            result += event.key;
+            value.textContent = result;
+        } else if (event.key === '+' || event.key === '-' || event.key === '/' || 
+                   event.key === 'x' || event.key === '%') {
+                    decimalBut.removeAttribute('disabled', 'true');
+                    digBut.forEach((but) => but.removeAttribute('disabled', 'false'));
+                    // if it's a continuous operator then we
+                    if (operator.length > 0) {
+                        // get the result of the two numbers and set it to num1
+                        result = operate(calculate(num1), operator, calculate(num2));
+                        num1 = numtoArr(result);
+                        // empty num2
+                        num2 = [];
+                    }
+                    operator = operators[event.key];
+                    if (event.key === '/') {
+                        statement = result + ' ÷ ';
+                    } else if (event.key === 'x'){
+                        statement = result + ' × ';
+                    } else {
+                        statement = result + (" " + event.key + " ");
+                    }
+                    console.log(statement);
+                    result = removeAll(result);
 
+                    expression.textContent = statement;
+        } else if (event.key === 'Enter') {
+            statement += result + ' = ';
+
+            console.log(statement);
+            // show expression on the screen
+            expression.textContent = statement;
+        
+            console.log(operator);
+            // calculate the result 
+            result = operate(calculate(num1), operator, calculate(num2));
+            console.log(result);
+            // empty the operator
+            operator = '';
+            // show result
+            value.textContent = result;
+        
+            num1 = numtoArr(result);
+            num2 = [];
+        } else if (event.key === '.') {
+            decimalBut.setAttribute('disabled', 'true');
+            if (operator.length <= 0) {
+                addDigit(num1, event.key);
+            } else {
+                addDigit(num2, event.key);
+            }
+            console.log("arr1", num1);
+            console.log("arr2", num2);
+        
+            result += event.key;
+            value.textContent = result;
+        } else if (event.key === 'Backspace') {
+            if (operator.length <= 0) {
+                removeDigit(num1);
+            } else {
+                removeDigit(num2);
+            }
+            result = removeOne(result);
+            
+            value.textContent = result;
+
+            console.log("arr1" + num1);
+            console.log("arr2" + num2);
+        }
+  
+  
+    // Cancel the default action to avoid it being handled twice
+    event.preventDefault();
+  }, true);
+ 
 
 
