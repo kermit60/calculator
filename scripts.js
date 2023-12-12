@@ -7,6 +7,14 @@ let num2 = [];
 let operator = '';
 let statement = "";
 let result = "";
+const operators = {
+    '+':'add',
+    '-':'subtract',
+    'x':'multiply',
+    '/':'divide',
+    '%':'modulus',
+    'Enter':'equals'
+}
 
 
 // An event for all the buttons if needed 
@@ -29,9 +37,6 @@ decimalBut.addEventListener('click', (e) => {
     } else {
         addDigit(num2, e.target.value);
     }
-    console.log("arr1", num1);
-    console.log("arr2", num2);
-
     result += e.target.value;
     value.textContent = result;
 })
@@ -39,22 +44,17 @@ decimalBut.addEventListener('click', (e) => {
 const digBut = document.querySelectorAll(".digit");
 digBut.forEach((but) => {
     but.addEventListener('click', (e) => {
-       
         if (operator.length <= 0) {
             addDigit(num1, Number(e.target.value));
         } else {
             addDigit(num2, Number(e.target.value));
         }
-
-        console.log("arr1", num1);
-        console.log("arr2", num2);
-
         result += e.target.value;
         value.textContent = result;
     });
 });
 
-
+// arithmetic operations
 let add = (num1, num2) => {
     if (typeof num1 === 'string') {
         num1 = Number(num1);
@@ -105,15 +105,6 @@ let modulus = (num1, num2) => {
     return num1 % num2;
 };
 
-const operators = {
-    '+':'add',
-    '-':'subtract',
-    'x':'multiply',
-    '/':'divide',
-    '%':'modulus',
-    'Enter':'equals'
-}
-
 let operate = (num1, operator, num2) => {
     if (operator === 'add') return `${add(num1, num2)}`;
     if (operator === 'subtract') return `${subtract(num1, num2)}`;
@@ -122,27 +113,19 @@ let operate = (num1, operator, num2) => {
     if (operator === 'modulus') return `${modulus(num1, num2)}`;
 };
 
-// event listener specifically for the equals button
-// this why I can use/see the previous operator
+
 const equalsButton = document.querySelector('#equals');
 equalsButton.addEventListener('click', (e) => {
     digBut.forEach((but) => but.setAttribute('disabled', "true"));
     // change the statement value to show all arithemetic
     statement += result + (" " + e.target.value + " ");
-
-    console.log(statement);
-    // show expression on the screen
     expression.textContent = statement;
 
-    console.log(operator);
     // calculate the result 
     result = operate(calculate(num1), operator, calculate(num2));
     console.log(result);
-    // empty the operator
     operator = '';
-    // show result
     value.textContent = result;
-
     num1 = numtoArr(result);
     num2 = [];
 
@@ -216,10 +199,6 @@ removeBut.forEach((button) => {
             value.textContent = result;
             num1 = [];
             num2 = [];
-            
-            console.log("arr1", num1);
-            console.log("arr2", num2);
-
         }
         if (e.target.id === 'removeOne') {
             if (operator.length <= 0) {
@@ -230,103 +209,93 @@ removeBut.forEach((button) => {
             result = removeOne(result);
             
             value.textContent = result;
-
-            console.log("arr1" + num1);
-            console.log("arr2" + num2);
         }
 
     });
 });
 
+// reuse the click() functions of the buttons for the keyboard functions 
 window.addEventListener("keydown", function (event) {
     if (event.defaultPrevented) {
       return; // Do nothing if the event was already processed
     }
+    switch(event.key) {
+        case '0':
+            const digit0 = document.querySelector('#digit-0');
+            digit0.click();
+            break;
+        case '1':
+            const digit1 = document.querySelector('#digit-1');
+            digit1.click();
+            break;
+        case '2':
+            const digit2 = document.querySelector('#digit-2');
+            digit2.click();
+            break;
+        case '3':
+            const digit3 = document.querySelector('#digit-3');
+            digit3.click();
+            break;
+        case '4':
+            const digit4 = document.querySelector('#digit-4');
+            digit4.click();
+            break;
+        case '5':
+            const digit5 = document.querySelector('#digit-5');
+            digit5.click();
+            break;
+        case '6':
+            const digit6 = document.querySelector('#digit-6');
+            digit6.click();
+            break;
+        case '7':
+            const digit7 = document.querySelector('#digit-7');
+            digit7.click();
+            break;
+        case '8':
+            const digit8 = document.querySelector('#digit-8');
+            digit8.click();
+            break;
+        case '9':
+            const digit9 = document.querySelector('#digit-9');
+            digit9.click();
+            break;
+        case '+':
+            const add = document.querySelector('#add');
+            add.click();
+            break;
+        case '-':
+            const sub = document.querySelector('#subtract');
+            sub.click();
+            break;
+        case '/':
+            const divide = document.querySelector('#divide');
+            divide.click();
+            break;
+        case 'x':
+            const multiply = document.querySelector('#multiply');
+            multiply.click();
+            break;
+        case '%':
+            const mod = document.querySelector('#modulus');
+            mod.click();
+            break;
+        case 'Backspace':
+            const backspace = document.querySelector('removeOne');
+            backspace.click();
+            break;
+        case 'Enter':
+            const enter = document.querySelector('#equals');
+            enter.click();
+            break;
+        case '.':
+            const decimal = document.querySelector('#decimal');
+            decimal.click();
+            break;
+        default:
+            return;
+    }
     
-    if (event.key === '0' || event.key === '1' || event.key === '2' || event.key === '3' ||
-        event.key === '4' || event.key === '5' || event.key === '6' || event.key === '7' ||
-        event.key === '8' || event.key === '9') {
-            if (operator.length <= 0) {
-                addDigit(num1, Number(event.key));
-            } else {
-                addDigit(num2, Number(event.key));
-            }
-    
-            console.log("arr1", num1);
-            console.log("arr2", num2);
-    
-            result += event.key;
-            value.textContent = result;
-        } else if (event.key === '+' || event.key === '-' || event.key === '/' || 
-                   event.key === 'x' || event.key === '%') {
-                    decimalBut.removeAttribute('disabled', 'true');
-                    digBut.forEach((but) => but.removeAttribute('disabled', 'false'));
-                    // if it's a continuous operator then we
-                    if (operator.length > 0) {
-                        // get the result of the two numbers and set it to num1
-                        result = operate(calculate(num1), operator, calculate(num2));
-                        num1 = numtoArr(result);
-                        // empty num2
-                        num2 = [];
-                    }
-                    operator = operators[event.key];
-                    if (event.key === '/') {
-                        statement = result + ' ÷ ';
-                    } else if (event.key === 'x'){
-                        statement = result + ' × ';
-                    } else {
-                        statement = result + (" " + event.key + " ");
-                    }
-                    console.log(statement);
-                    result = removeAll(result);
-
-                    expression.textContent = statement;
-        } else if (event.key === 'Enter') {
-            statement += result + ' = ';
-
-            console.log(statement);
-            // show expression on the screen
-            expression.textContent = statement;
-        
-            console.log(operator);
-            // calculate the result 
-            result = operate(calculate(num1), operator, calculate(num2));
-            console.log(result);
-            // empty the operator
-            operator = '';
-            // show result
-            value.textContent = result;
-        
-            num1 = numtoArr(result);
-            num2 = [];
-        } else if (event.key === '.') {
-            decimalBut.setAttribute('disabled', 'true');
-            if (operator.length <= 0) {
-                addDigit(num1, event.key);
-            } else {
-                addDigit(num2, event.key);
-            }
-            console.log("arr1", num1);
-            console.log("arr2", num2);
-        
-            result += event.key;
-            value.textContent = result;
-        } else if (event.key === 'Backspace') {
-            if (operator.length <= 0) {
-                removeDigit(num1);
-            } else {
-                removeDigit(num2);
-            }
-            result = removeOne(result);
-            
-            value.textContent = result;
-
-            console.log("arr1" + num1);
-            console.log("arr2" + num2);
-        }
-  
-  
-    // Cancel the default action to avoid it being handled twice
     event.preventDefault();
   }, true);
  
