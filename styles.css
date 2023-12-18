@@ -1,7 +1,7 @@
 * {
     background-color: snow;
     font-family: 'Roboto', sans-serif;
-    border: red solid 2px;
+    /* border: red solid 2px; */
 }
 
 button {
@@ -90,6 +90,7 @@ button:hover {
     color: black;
     font-size: 24px;
     transition: transform 0.3s ease-in-out;
+    margin-left: 5px;
   }
   
 .fa-github:hover {
