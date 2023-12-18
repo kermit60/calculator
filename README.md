@@ -6,4 +6,5 @@ This is a calculator project to further showcase my learning of the basics of Ja
 - CSS
 - Javascript
 
-### Things learned:
+### Live link:
+[live link](https://kermit60.github.io/calculator/)
