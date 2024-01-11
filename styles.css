@@ -75,7 +75,8 @@ button:hover {
 .value {
     background-color: rgb(95, 94, 94);
     text-align: end;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .expression {
